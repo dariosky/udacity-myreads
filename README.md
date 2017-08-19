@@ -14,3 +14,21 @@ practicing the React fundamentals.
 We start from a [create-react-app](https://github.com/facebookincubator/create-react-app/),
 a client API, and some template code from [the starter project](https://github.com/udacity/reactnd-project-myreads-starter) and we
 add the React functionalities.
+
+
+## How to run
+
+* Clone the repo
+	
+		git clone git@github.com:dariosky/udacity-myreads.git
+		cd udacity-myreads
+	
+* Install the dependencies
+		
+		yarn
+
+* Run the app
+
+		yarn start
+		
+  The app will run on port 3000, browser will open automatically
