@@ -14,11 +14,16 @@ const availableShelves = [
 class BookShelfChanger extends React.Component {
   static propTypes = {
     current: PropTypes.string.isRequired,
+    onChangeShelf: PropTypes.func,
   }
 
   render() {
     return <div className="book-shelf-changer">
-      <select defaultValue={this.props.current}>
+      <select defaultValue={this.props.current} onChange={(e) => {
+        const newShelf = e.target.value
+        console.log(`Changed shelf to ${newShelf}`)
+        this.props.onChangeShelf(newShelf)
+      }}>
         <option value="none" disabled>Move to...</option>
         {availableShelves.map(
           shelfDescription => {
@@ -34,6 +39,7 @@ class BookShelfChanger extends React.Component {
 class Book extends React.Component {
   static propTypes = {
     book: PropTypes.object,
+    onMoveBook: PropTypes.func,
   }
 
   render() {
@@ -46,7 +52,13 @@ class Book extends React.Component {
             backgroundImage: `url(${book.imageLinks.thumbnail})`,
           }}>
           </div>
-          <BookShelfChanger current={book.shelf}/>
+          <BookShelfChanger current={book.shelf}
+                            onChangeShelf={(newShelf) => {
+                              this.props.onMoveBook(book, newShelf)
+                            }}
+
+
+          />
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors.join(", ")}</div>
@@ -60,6 +72,7 @@ class BookShelf extends React.Component {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     books: PropTypes.array,
+    onMoveBook: PropTypes.func,
   }
 
   render() {
@@ -70,7 +83,9 @@ class BookShelf extends React.Component {
           return book.shelf === this.props.id // keep books in this shelf
         },
       ),
-      bookElements = booksHere ? booksHere.map(book => <Book key={book.id} book={book}/>) :
+      bookElements = booksHere.length ? booksHere.map(book => <Book key={book.id}
+                                                             onMoveBook={this.props.onMoveBook}
+                                                             book={book}/>) :
         <div key="no-books">No books in this shelf</div>
 
 
@@ -78,7 +93,7 @@ class BookShelf extends React.Component {
       <h2 className="bookshelf-title">
         {this.props.name}
       </h2>
-      <div className="bookshelf-counts">{booksHere.length} / {books.length}</div>
+      <div className="bookshelf-counts">{booksHere.length}</div>
       <div className="bookshelf-books">
         <ol className="books-grid">
           {bookElements}
@@ -91,6 +106,7 @@ class BookShelf extends React.Component {
 class BookLibrary extends React.Component {
   static propTypes = {
     books: PropTypes.array,
+    onMoveBook: PropTypes.func,
   }
 
   render() {
@@ -103,6 +119,7 @@ class BookLibrary extends React.Component {
         shelf => <BookShelf key={shelf.id}
                             id={shelf.id}
                             books={this.props.books}
+                            onMoveBook={this.props.onMoveBook}
                             name={shelf.name}/>,
       )
 

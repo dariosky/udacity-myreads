@@ -32,3 +32,20 @@ add the React functionalities.
 		yarn start
 		
   The app will run on port 3000, browser will open automatically
+
+
+## Notes
+
+This project covers the React Foundamentals, state bubbling, React components
+communicate with a remote API server.
+
+Using the various component required passing some callbacks function
+to have the message reacing the parent component that takes care of
+the state.
+
+This will become better using Redux ;)
+
+We have component for the BookLibrary, the BookSearch page,
+BookShelf, Book and BookShelfChanger.
+
+Also the number of shelves can be tuned easily in the `availableShelves`.

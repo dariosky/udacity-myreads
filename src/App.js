@@ -12,7 +12,6 @@ class BooksApp extends React.Component {
     this.state = {
       books: null, // we will load the books via the API
     }
-
   }
 
   _getBooks() {
@@ -28,6 +27,28 @@ class BooksApp extends React.Component {
     this._getBooks()
   }
 
+  onMoveBook(book, shelf) {
+    console.log(`Moving book ${book.title} to ${shelf}`)
+    const books = this.state.books.map(
+      bookIterator => {
+        if (bookIterator.id !== book.id)
+        // keep the other books
+          return bookIterator
+        else {
+          // keep the book, change the shelf
+          return {
+            ...book,
+            shelf: shelf,
+          }
+        }
+
+      },
+    )
+    BooksAPI.update(book, shelf)
+    this.setState({
+      books,
+    })
+  }
 
   render() {
     return (
@@ -39,7 +60,8 @@ class BooksApp extends React.Component {
         <Route
           exact path="/"
           render={() =>
-            <BookLibrary books={this.state.books}/>
+            <BookLibrary books={this.state.books}
+                         onMoveBook={this.onMoveBook.bind(this)}/>
           }
         />
         <Route
