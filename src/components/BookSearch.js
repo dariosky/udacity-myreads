@@ -4,6 +4,7 @@ import sortBy from 'sort-by'
 import {Book} from './BookLibrary'
 import PropTypes from 'prop-types'
 import * as BookAPI from '../BooksAPI'
+import {throttle} from 'lodash'
 
 class BookSearch extends React.Component {
   static propTypes = {
@@ -18,19 +19,27 @@ class BookSearch extends React.Component {
     }
   }
 
-  onSearch() {
-    const term = this._searchInput.value
+  debouncedSearch = throttle((term) => {
     console.log(`searching ${term}`)
     if (!term) {
       this.setState({results: []})
     }
     else {
       BookAPI.search(term).then(results => {
+        if (results.error) {
+          console.log("API told me", results.error)
+          results = []
+        }
         console.log(`Got ${results.length} results`)
         console.log(results)
         this.setState({results})
       })
     }
+  }, 300) // throttled once every 300ms
+
+  onSearch() {
+    const term = this._searchInput.value
+    this.debouncedSearch(term)
   }
 
   render() {

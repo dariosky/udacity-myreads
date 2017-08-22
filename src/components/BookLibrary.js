@@ -4,6 +4,8 @@ import sortBy from 'sort-by'
 
 import PropTypes from 'prop-types'
 
+
+const genericImageCover = require('../icons/generic-bookcover.png')
 // Let's define the available Shelves
 const availableShelves = [
   {name: 'Currently Reading', id: 'currentlyReading'},
@@ -47,7 +49,7 @@ class Book extends React.Component {
     const book = this.props.book,
       // sometime we miss the cover, let's use a generic one
       coverUrl = book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail :
-        'http://www.akmarshall.com/wp-content/uploads/2012/12/mysterybook.gif',
+        genericImageCover,
       authors = book.authors ? book.authors.join(", ") : ''
 
     return <li>

@@ -202,8 +202,8 @@ body, .app {
 	height: 190px;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: cover;
-	background: #eee;
+	background-size: contain;
+	background-color: #eee;
 }
 
 .book-cover-title {
