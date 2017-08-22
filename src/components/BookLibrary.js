@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import sortBy from 'sort-by'
 
 import PropTypes from 'prop-types'
 
@@ -43,13 +44,17 @@ class Book extends React.Component {
   }
 
   render() {
-    const book = this.props.book
+    const book = this.props.book,
+      // sometime we miss the cover, let's use a generic one
+      coverUrl = book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail :
+        'http://www.akmarshall.com/wp-content/uploads/2012/12/mysterybook.gif',
+      authors = book.authors ? book.authors.join(", ") : ''
 
     return <li>
       <div className="book">
         <div className="book-top">
           <div className="book-cover" style={{
-            backgroundImage: `url(${book.imageLinks.thumbnail})`,
+            backgroundImage: `url(${coverUrl})`,
           }}>
           </div>
           <BookShelfChanger current={book.shelf}
@@ -61,7 +66,7 @@ class Book extends React.Component {
           />
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors.join(", ")}</div>
+        <div className="book-authors">{authors}</div>
       </div>
     </li>
   }
@@ -82,11 +87,12 @@ class BookShelf extends React.Component {
         book => {
           return book.shelf === this.props.id // keep books in this shelf
         },
-      ),
-      bookElements = booksHere.length ? booksHere.map(book => <Book key={book.id}
-                                                             onMoveBook={this.props.onMoveBook}
-                                                             book={book}/>) :
-        <div key="no-books">No books in this shelf</div>
+      ).sort(sortBy('title', 'publishedDate')),
+      bookElements = booksHere.length ? booksHere.map(
+        book => <Book key={book.id}
+                      onMoveBook={this.props.onMoveBook}
+                      book={book}/>,
+      ) : <div key="no-books">No books in this shelf</div>
 
 
     return <div className="bookshelf">
@@ -137,4 +143,5 @@ class BookLibrary extends React.Component {
   }
 }
 
-export default BookLibrary
+export {BookLibrary, Book}
+

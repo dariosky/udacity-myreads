@@ -46,6 +46,6 @@ the state.
 This will become better using Redux ;)
 
 We have component for the BookLibrary, the BookSearch page,
-BookShelf, Book and BookShelfChanger.
+BookShelf, Book and BookShelfChanger, and we keep the shelves sorted by name.
 
 Also the number of shelves can be tuned easily in the `availableShelves`.

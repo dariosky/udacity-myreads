@@ -2,7 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import {Route} from 'react-router-dom'
-import BookLibrary from './components/BookLibrary'
+import {BookLibrary} from './components/BookLibrary'
 import BookSearch from './components/BookSearch'
 
 class BooksApp extends React.Component {
@@ -66,7 +66,10 @@ class BooksApp extends React.Component {
         />
         <Route
           path="/search"
-          component={BookSearch}
+          render={() =>
+            <BookSearch books={this.state.books}
+                        onMoveBook={this.onMoveBook.bind(this)}/>
+          }
         />
       </div>
     )
