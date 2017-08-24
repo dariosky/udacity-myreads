@@ -43,9 +43,12 @@ Using the various component required passing some callbacks function
 to have the message reacing the parent component that takes care of
 the state.
 
-This will become better using Redux ;)
+This will become better using Redux, next part of course ;)
 
 We have component for the BookLibrary, the BookSearch page,
 BookShelf, Book and BookShelfChanger, and we keep the shelves sorted by name.
 
-Also the number of shelves can be tuned easily in the `availableShelves`.
+In the BookSearch component we reuse all the components, the only difference
+(in CSS) is that known books are hilighted. Book state is consistent across views.
+
+Finally the number of shelves can be tuned easily in the `availableShelves`.
