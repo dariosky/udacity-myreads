@@ -127,8 +127,12 @@ body, .app {
 }
 
 .search-books-results {
-	margin-top: 130px;
+	margin-top: 30px;
 	padding: 20px 10px;
+}
+
+.search-books-results .known {
+	background: lightyellow;
 }
 
 /* books grid */

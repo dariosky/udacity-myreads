@@ -35,7 +35,7 @@ class BookSearch extends React.Component {
         this.setState({results})
       })
     }
-  }, 300) // throttled once every 300ms
+  }, 500) // throttled once every 500ms
 
   onSearch() {
     const term = this._searchInput.value
@@ -43,14 +43,21 @@ class BookSearch extends React.Component {
   }
 
   render() {
+    const knownBooksShelf = {} // a map, for every known book id => current shelf
+    if (this.props.books)
+      this.props.books.map(book => {
+        knownBooksShelf[book.id] = book.shelf
+        return true
+      })
     const booksHere = this.state.results.sort(sortBy('title', 'publishedDate')),
       bookElements = booksHere.length ? booksHere.map(
         book => <Book key={book.id}
                       onMoveBook={this.props.onMoveBook}
-                      book={book}/>,
+                      book={{...book, shelf: knownBooksShelf[book.id]}}/>,
         ) :
         <div key="no-books">
         </div>
+
     return <div className="search-books">
       <div className="search-books-bar">
         <Link className="close-search" to="/">Close</Link>

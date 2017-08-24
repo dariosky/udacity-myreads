@@ -19,7 +19,6 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then(books => {
       this.setState({books})
       console.log(`Got ${books.length} books`)
-      console.log(books)
     })
   }
 
@@ -29,6 +28,7 @@ class BooksApp extends React.Component {
 
   onMoveBook(book, shelf) {
     console.log(`Moving book ${book.title} to ${shelf}`)
+    let existing = false
     const books = this.state.books.map(
       bookIterator => {
         if (bookIterator.id !== book.id)
@@ -36,6 +36,7 @@ class BooksApp extends React.Component {
           return bookIterator
         else {
           // keep the book, change the shelf
+          existing = true // we had the book
           return {
             ...book,
             shelf: shelf,
@@ -44,6 +45,8 @@ class BooksApp extends React.Component {
 
       },
     )
+    if (!existing)
+      books.push({...book, shelf: shelf}) // a new book for our shelf
     BooksAPI.update(book, shelf)
     this.setState({
       books,

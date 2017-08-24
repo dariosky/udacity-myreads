@@ -16,13 +16,14 @@ const availableShelves = [
 
 class BookShelfChanger extends React.Component {
   static propTypes = {
-    current: PropTypes.string.isRequired,
+    current: PropTypes.string, // it defaults to none
     onChangeShelf: PropTypes.func,
   }
 
   render() {
+    const current = this.props.current || 'none'
     return <div className="book-shelf-changer">
-      <select defaultValue={this.props.current} onChange={(e) => {
+      <select defaultValue={current} onChange={(e) => {
         const newShelf = e.target.value
         console.log(`Changed shelf to ${newShelf}`)
         this.props.onChangeShelf(newShelf)
@@ -52,8 +53,10 @@ class Book extends React.Component {
         genericImageCover,
       authors = book.authors ? book.authors.join(", ") : ''
 
+    console.log(book.shelf)
+    const knownBook = (book.shelf || 'none') !== 'none'
     return <li>
-      <div className="book">
+      <div className={"book" + (knownBook ? " known" : "")}>
         <div className="book-top">
           <div className="book-cover" style={{
             backgroundImage: `url(${coverUrl})`,
