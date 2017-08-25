@@ -4,6 +4,8 @@ import './App.css'
 import {Route} from 'react-router-dom'
 import {BookLibrary} from './components/BookLibrary'
 import BookSearch from './components/BookSearch'
+import PageNotFound from './components/PageNotFound'
+import Switch from 'react-router-dom/es/Switch'
 
 class BooksApp extends React.Component {
   /* This is the BookApp - it manages the various book, and will keep the status */
@@ -22,7 +24,7 @@ class BooksApp extends React.Component {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._getBooks()
   }
 
@@ -59,21 +61,25 @@ class BooksApp extends React.Component {
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
-
-        <Route
-          exact path="/"
-          render={() =>
-            <BookLibrary books={this.state.books}
-                         onMoveBook={this.onMoveBook.bind(this)}/>
-          }
-        />
-        <Route
-          path="/search"
-          render={() =>
-            <BookSearch books={this.state.books}
-                        onMoveBook={this.onMoveBook.bind(this)}/>
-          }
-        />
+        <Switch>
+          <Route
+            exact path="/"
+            render={() =>
+              <BookLibrary books={this.state.books}
+                           onMoveBook={this.onMoveBook.bind(this)}/>
+            }
+          />
+          <Route
+            path="/search"
+            render={() =>
+              <BookSearch books={this.state.books}
+                          onMoveBook={this.onMoveBook.bind(this)}/>
+            }
+          />
+          <Route
+            component={PageNotFound}
+            />
+        </Switch>
       </div>
     )
   }

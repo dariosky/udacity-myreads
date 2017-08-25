@@ -31,7 +31,6 @@ class BookSearch extends React.Component {
           results = []
         }
         console.log(`Got ${results.length} results`)
-        console.log(results)
         this.setState({results})
       })
     }

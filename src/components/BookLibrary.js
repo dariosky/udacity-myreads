@@ -53,7 +53,6 @@ class Book extends React.Component {
         genericImageCover,
       authors = book.authors ? book.authors.join(", ") : ''
 
-    console.log(book.shelf)
     const knownBook = (book.shelf || 'none') !== 'none'
     return <li>
       <div className={"book" + (knownBook ? " known" : "")}>
